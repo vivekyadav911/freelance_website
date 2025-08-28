@@ -9,7 +9,6 @@ export const SITE = {
     { href: '/pre-lab-questions', label: 'Pre-lab Questions' },
     { href: '/escape-room', label: 'Escape Room' },
     { href: '/coding-races', label: 'Coding Races' },
-    { href: '/court-room', label: 'Court Room' },
-    { href: '/about', label: 'About' },
+    { href: '/about', label: 'About' }
   ],
 } as const;

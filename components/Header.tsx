@@ -58,13 +58,7 @@ export default function Header() {
     transition: 'background-color 0.2s',
   };
 
-  const desktopNavStyle: React.CSSProperties = {
-    display: 'none',
-    '@media (min-width: 768px)': {
-      display: 'flex',
-    } as any,
-  };
-
+  
   const mobileMenuStyle: React.CSSProperties = {
     position: 'absolute' as const,
     top: '100%',

@@ -60,10 +60,10 @@ export default function TabBuilder() {
   borderRadius: '4px',
   fontFamily: 'Consolas, Monaco, "Courier New", monospace',
   fontSize: '12px',
-  whiteSpace: 'pre-wrap',      // ✅ Wrap long lines
-  wordWrap: 'break-word',      // ✅ Break words if too long
-  overflow: 'auto',            // ✅ Add scrolling when needed
-  maxHeight: '400px',          // ✅ Prevent crossing footer
+  whiteSpace: 'pre-wrap',     
+  wordWrap: 'break-word',      
+  overflow: 'auto',            
+  maxHeight: '400px',          
   border: '1px solid #555',
 };
 

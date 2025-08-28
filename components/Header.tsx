@@ -11,156 +11,126 @@ export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const pathname = usePathname();
 
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
-  };
-
+  // close menu when path changes
   useEffect(() => {
     setIsMenuOpen(false);
   }, [pathname]);
 
-  const navStyle: React.CSSProperties = {
-    backgroundColor: 'var(--header-bg)',
-    color: 'var(--header-text)',
-    padding: '0 20px',
-    borderBottom: '1px solid var(--border)',
-    position: 'relative' as const,
-  };
-
-  const containerStyle: React.CSSProperties = {
-    maxWidth: '1200px',
-    margin: '0 auto',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    height: '60px',
-  };
-
-  const logoStyle: React.CSSProperties = {
-    display: 'flex',
-    alignItems: 'center',
-    gap: '20px',
-  };
-
-  const menuButtonStyle: React.CSSProperties = {
-    background: 'none',
-    border: 'none',
-    color: 'inherit',
-    cursor: 'pointer',
-    padding: '8px',
-    fontSize: '24px',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: '40px',
-    height: '40px',
-    borderRadius: '4px',
-    transition: 'background-color 0.2s',
-  };
-
-  
-  const mobileMenuStyle: React.CSSProperties = {
-    position: 'absolute' as const,
-    top: '100%',
-    left: 0,
-    right: 0,
-    backgroundColor: 'var(--header-bg)',
-    borderBottom: '1px solid var(--border)',
-    display: isMenuOpen ? 'block' : 'none',
-    zIndex: 100,
-  };
-
-  const navListStyle: React.CSSProperties = {
-    listStyle: 'none',
-    margin: 0,
-    padding: 0,
-    display: 'flex',
-    gap: '10px',
-  };
-
-  const mobileNavListStyle: React.CSSProperties = {
-    ...navListStyle,
-    flexDirection: 'column' as const,
-    padding: '10px 20px',
-  };
-
-  const navItemStyle = (isActive: boolean): React.CSSProperties => ({
-    padding: '8px 16px',
-    backgroundColor: isActive ? 'rgba(255,255,255,0.1)' : 'transparent',
-    borderRadius: '4px',
-    transition: 'background-color 0.2s',
-    display: 'block',
-    textDecoration: 'none',
-    color: 'inherit',
-  });
-
   return (
     <>
       <NavCookieTracker />
-      <nav style={navStyle} role="navigation" aria-label="Main navigation">
-        <div style={containerStyle}>
-          <div style={logoStyle}>
-            <h1 style={{ margin: 0, fontSize: '20px', fontWeight: 'bold' }}>{SITE.title}</h1>
-            <span style={{ fontSize: '16px' }}>{SITE.studentNumber}</span>
+      <header
+        style={{
+          backgroundColor: 'var(--header-bg)',
+          color: 'var(--header-text)',
+          borderBottom: '1px solid var(--border)',
+          padding: '0 20px',
+        }}
+      >
+        <div
+          style={{
+            maxWidth: '1200px',
+            margin: '0 auto',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            height: '60px',
+          }}
+        >
+          {/* Left Section: Hamburger + Title */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
+            {/* Hamburger Button (ALWAYS visible on left) */}
+            <button
+              aria-label="Toggle menu"
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              style={{
+                fontSize: '24px',
+                background: 'none',
+                border: 'none',
+                color: 'inherit',
+                cursor: 'pointer',
+              }}
+            >
+              ☰
+            </button>
+
+            {/* Site Title */}
+            <h1 style={{ margin: 0, fontSize: '20px', fontWeight: 'bold' }}>
+              {SITE.title}
+            </h1>
+
+            {/* Student Number */}
+            <span>{SITE.studentNumber}</span>
           </div>
 
+          {/* Right Section: Dark Mode & Desktop Nav */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
             <ThemeToggle />
-            
-            {/* Desktop Navigation */}
-            <ul style={{ ...navListStyle, display: 'none' }} className="desktop-nav">
+
+            {/* Desktop Nav */}
+            <nav className="desktop-nav" style={{ display: 'none' }}>
+              <ul style={{ display: 'flex', gap: '15px', margin: 0, padding: 0, listStyle: 'none' }}>
+                {SITE.nav.map((item) => (
+                  <li key={item.href}>
+                    <Link
+                      href={item.href}
+                      style={{
+                        textDecoration: 'none',
+                        padding: '8px 12px',
+                        borderRadius: '4px',
+                        backgroundColor: pathname === item.href ? 'var(--accent)' : 'transparent',
+                        color: pathname === item.href ? '#fff' : 'inherit',
+                      }}
+                    >
+                      {item.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          </div>
+        </div>
+
+        {/* Mobile Dropdown when hamburger clicked */}
+        {isMenuOpen && (
+          <nav
+            style={{
+              backgroundColor: 'var(--header-bg)',
+              borderTop: '1px solid var(--border)',
+              padding: '10px 20px',
+            }}
+          >
+            <ul style={{ margin: 0, padding: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '10px' }}>
               {SITE.nav.map((item) => (
                 <li key={item.href}>
                   <Link
                     href={item.href}
-                    style={navItemStyle(pathname === item.href)}
+                    style={{
+                      display: 'block',
+                      padding: '8px 12px',
+                      borderRadius: '4px',
+                      textDecoration: 'none',
+                      backgroundColor: pathname === item.href ? 'var(--accent)' : 'transparent',
+                      color: pathname === item.href ? '#fff' : 'inherit',
+                    }}
                   >
                     {item.label}
                   </Link>
                 </li>
               ))}
             </ul>
+          </nav>
+        )}
 
-            {/* Mobile Menu Button */}
-            <button
-              style={menuButtonStyle}
-              onClick={toggleMenu}
-              aria-label="Toggle menu"
-              aria-expanded={isMenuOpen}
-              className="mobile-menu-button"
-            >
-              ☰
-            </button>
-          </div>
-        </div>
-
-        {/* Mobile Navigation */}
-        <div style={mobileMenuStyle}>
-          <ul style={mobileNavListStyle}>
-            {SITE.nav.map((item) => (
-              <li key={item.href}>
-                <Link
-                  href={item.href}
-                  style={navItemStyle(pathname === item.href)}
-                >
-                  {item.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </nav>
-
-      <style jsx global>{`
-        @media (min-width: 768px) {
-          .desktop-nav {
-            display: flex !important;
+        {/* CSS media query for hiding/showing navs */}
+        <style jsx global>{`
+          @media (min-width: 768px) {
+            .desktop-nav {
+              display: block !important;
+            }
           }
-          .mobile-menu-button {
-            display: none !important;
-          }
-        }
-      `}</style>
+        `}</style>
+      </header>
     </>
   );
 }

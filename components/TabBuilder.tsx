@@ -53,6 +53,20 @@ export default function TabBuilder() {
     alignItems: 'center'
   });
 
+  const outputStyle: React.CSSProperties = {
+  backgroundColor: '#1e1e1e',
+  color: '#d4d4d4',
+  padding: '15px',
+  borderRadius: '4px',
+  fontFamily: 'Consolas, Monaco, "Courier New", monospace',
+  fontSize: '12px',
+  whiteSpace: 'pre-wrap',      // ✅ Wrap long lines
+  wordWrap: 'break-word',      // ✅ Break words if too long
+  overflow: 'auto',            // ✅ Add scrolling when needed
+  maxHeight: '400px',          // ✅ Prevent crossing footer
+  border: '1px solid #555',
+};
+
   // ===================
   // ACTION HANDLERS
   // ===================
@@ -163,12 +177,15 @@ export default function TabBuilder() {
       </div>
 
       {/* Output Panel */}
-      <div style={panelStyle}>
-        <div style={headerStyle}>Output</div>
-        <pre style={{whiteSpace:'pre-wrap', fontSize:'12px', background:'#1e1e1e', color:'#d4d4d4', flex:1, padding:'10px'}}>
-          {generatedHTML}
-        </pre>
-      </div>
+      
+  {/* Output Panel */}
+<div style={panelStyle}>
+  <div style={headerStyle}>Output</div>
+  <pre style={outputStyle}>
+    {generatedHTML}
+  </pre>
+</div>
+
     </div>
   );
 }
